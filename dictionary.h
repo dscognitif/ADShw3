@@ -1,42 +1,19 @@
-/*
-// declares a dictionary
 
+// declares a dictionary
 #ifndef DICTIONARY_H
 #define DICTIONARY_H
 
 #include <stdbool.h>
 
-// maximum length for a word
-#define LENGTH 45
-
-// a dictionary is an array
-typedef struct dict {
-  int numWords;
-  int maxWords;
-  char **words;
-} dict;
-
-dict *newEmptyDict();
-void addWord(char word[LENGTH + 1], dict *d);
-bool check(const char *word, dict *d);
-void freeDict(dict *n);
-
-#endif // DICTIONARY_H
-*/
-
-// declares a dictionary
-#define DICTIONARY_H
-
-#include <stdbool.h>
+#define ARRAY_SIZE(a) sizeof(a)/sizeof(a[0])
 
 // size of the alphabet is the number of children
 #define N 26
 
-// a trie 
-typedef struct trie {
-	bool is_word;
-	struct trie *children[N];
-} trie;
+// Converts key current character into index
+// use only 'a' through 'z' and lower case
+#define CHAR_TO_INDEX(c) ((int)c - (int)'a')
+
 
 // trie node 
 typedef struct TrieNode { 
@@ -47,6 +24,26 @@ typedef struct TrieNode {
     bool is_word; 
 } TrieNode;
 
+/*
+// Returns new trie node (initialized to NULLs)
+typedef struct TrieNode *getNode(void) {
+    struct TrieNode *pNode = NULL;
+    pNode = (struct TrieNode *)malloc(sizeof(struct TrieNode));
+    if (pNode)
+    {
+        int i;
+        pNode->is_word = false;
+        for (i = 0; i < N; i++)
+            pNode->children[i] = NULL;
+    }
+    return pNode;
+} TrieNode;
+*/
+
+
 // functions
 bool search(struct TrieNode *root, const char *key);
 void addWord(struct TrieNode *root, const char *key);
+
+
+#endif // DICTIONARY_H

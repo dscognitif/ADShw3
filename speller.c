@@ -25,8 +25,7 @@ int main(int argc, char *argv[]) {
 
   struct TrieNode *root = getNode();
 
-  // step 1: read in the dictionary
-  // dict *dictionary = newEmptyDict();
+  // step 1: add words to the trie
   while (scanf("%45s",word) && word[0] != '!') {
     trimWord(word);
     addWord(root, word);
