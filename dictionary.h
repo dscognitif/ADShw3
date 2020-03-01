@@ -44,6 +44,9 @@ typedef struct TrieNode *getNode(void) {
 // functions
 bool search(struct TrieNode *root, const char *key);
 void addWord(struct TrieNode *root, const char *key);
+struct TrieNode *getNode(void);
+// void trieFreeChildren(struct TrieNode* node);
+void freeTrie(struct TrieNode* root);
 
 
 #endif // DICTIONARY_H

@@ -1,10 +1,10 @@
-// a SLOW spell checker
+// Algorithms and Data Structures in AI
+// Assigment 3: Spell Checker
+// s4017765 & s3897605
 
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-
 #include "dictionary.h"
 
 // remove non-alphabetic characters and convert to lower case
@@ -19,71 +19,65 @@ void trimWord(char *word) {
   word[k] = '\0';
 }
 
+// Driver code
 int main(int argc, char *argv[]) {
 
   char word[N + 1] = "";
 
-  struct TrieNode *root = getNode();
+  //construct trie
+  struct TrieNode *root = getNode(); 
 
-  // step 1: add words to the trie
+  // add words to the trie and but convert to lower case
   while (scanf("%45s",word) && word[0] != '!') {
     trimWord(word);
     addWord(root, word);
   }
-
-  // step 2: read in text
-  int counter = 0; // number of unknown words
-
-  // TODO: Replace the above while loop with a correct solution.
-  // Hints:
-  // - you should read one character at a time, using getchar()
-  // - alphabetical characters should be appended to the current word
-  // - any other symbol should terminate the word
-  // this code might be useful:
-
   
-  int c = EOF;
+  // number of unknown words
+  int counter = 0;
+  
+  // the index to keep store the characters in the string
   int i = 0;
-  char clear[N+1] = " ";
-  char string[N+1] = " ";
 
-  // while accept character and not end of file
+  // end of file
+  int c = EOF;
+
   while ((c = getchar()) && c != EOF) {
-  	
-  	// conditional that accepts when the character is alphabetical
+    
+    // Conditional to accept when the character is alphabetical
     if (isalpha(c)) {
-    	
-    	// while character is alphabetical allocate character to string
-      	while (isalpha(c)) {
-        	string[i] = c;
-        	i++;
-       		c = getchar();
-       	}
-		
-       	// converts string to lower case
-		trimWord(string);
 
-		/* conditional to check whether the string is in the dictionary 
-		if not then print the strong and count how many */
-   		if (search(root, word)) {
-      		counter++;
-      		printf("%s\n",string);
-    	}
+      // use string to store the word scanned
+      char string[N + 1] = "";
 
-    	// clears the string so it is empty to store a new word
-    	for (int x = 0; x < i; x++){
-			string[x] = clear[0];
-		}
-		i = 0;
-    }
-    else {
-    	continue;
+      // while the character is alphabetical allocate the characters into the string
+      while (isalpha(c)) {
+        string[i] = c;
+        i++;
+        c = getchar();
+      }
+      i= 0; // Reset the index
+
+      // copy the string into word 
+      strcpy(word, string);
+
+      // convert to lower case
+      trimWord(word);
+      
+      /* conditional when the word is not the trie dictionary then print the word 
+      and count how many words are not in the dictionary */
+      if (!search(root, word)) {
+        counter++;
+        printf("%s\n", word);
+      }
     }
   }
-
-
-  // step 3: print number of unknown words
+  
+  // print number of unknown words that are not in the dictionary
   printf("%d\n", counter);
 
+  // deallocate the memory previously assigned to the trie
+  freeTrie(root);
+  
   return 0;
 }
